@@ -10,6 +10,7 @@ import glob
 import sys
 import argparse
 import subprocess
+import numpy as np
 
 
 def build_rtc_runcnfg(user_rncfg, input_s1_zip, orbit_file, dem_file, scratch_dir, output_dir):
@@ -21,9 +22,15 @@ def build_rtc_runcnfg(user_rncfg, input_s1_zip, orbit_file, dem_file, scratch_di
     # print("scratch_dir: ", scratch_dir)
     # print("output_dir: ", output_dir)
     
+    # Construct path to the RTC default runconfig
+    path = np.__file__      # Ex: '/opt/conda/lib/python3.10/site-packages/numpy/__init__.py'
+    path = path.split("site-packages")
+    path = os.path.join(path[0], "site-packages", "rtc/defaults/rtc_s1.yaml")
+    
     # Read defaults yaml into memory
     # with open("RTC/src/rtc/defaults/rtc_s1.yaml", 'r') as defaults_file:
-    with open("/opt/conda/lib/python3.10/site-packages/rtc/defaults/rtc_s1.yaml", 'r') as defaults_file:
+    # with open("/opt/conda/lib/python3.10/site-packages/rtc/defaults/rtc_s1.yaml", 'r') as defaults_file:
+    with open(path, 'r') as defaults_file:
         defaults = ruamel.yaml.safe_load(defaults_file)
 
 
