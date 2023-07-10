@@ -12,6 +12,10 @@ import argparse
 import subprocess
 import numpy as np
 
+from maap.Result import Result
+from maap.dps.DpsHelper import DpsHelper
+from urllib.parse import urlparse
+
 
 def build_rtc_runcnfg(user_rncfg, input_s1_zip, orbit_file, dem_file, scratch_dir, output_dir):
     
@@ -337,6 +341,25 @@ def main(bbox, dateRange, direction):
     granule2bursts(input_s1_zip, output_dir)
 
 
+def download_file_from_https(url_of_file):
+    
+    maap = MAAP()
+    filename = os.path.basename(urlparse(url).path)
+    filepath = os.path.join("input", filename)
+
+    proxy = Result({})
+    proxy._cmrFileUrl = maap._SEARCH_GRANULE_URL
+    proxy._apiHeader = maap._get_api_header()
+
+    # clear pgt value to simulate a DPS context
+    proxy._apiHeader['proxy-ticket'] = ''
+
+    proxy._dps = DpsHelper(proxy._apiHeader, "")
+    proxy._getHttpData(url, False, filepath)
+
+    return filepath
+
+
 if __name__ == "__main__":
     '''
     Command line script to process a Sentinel-1 RTC.
@@ -359,8 +382,10 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
 
-    if not os.path.isfile(args.in_file):
+    in_file = download_file_from_https(args.in_file)
+    
+    if not os.path.isfile(in_file):
         raise FileNotFoundError(f"Input File does not exist {args.in_file}")
     
-    granule2bursts(args.in_file, args.output_dir)
+    granule2bursts(in_file, args.output_dir)
     
