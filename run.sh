@@ -16,7 +16,6 @@ source activate base
 # # conda install ${basedir}/environment.yaml
 # mamba env update --file ${basedir}/environment.yaml
 
-
 # INPUT_FILENAME=$(ls -d input/*)
 INPUT_FILENAME=$1
 
@@ -27,24 +26,7 @@ basedir=$( cd "$(dirname "$0")" ; pwd -P )
 # Only items in a directory with that name will persist in my-public-bucket after DPS finishes.
 mkdir -p output
 
+export HOME=/home/ops
+
 python ${basedir}/s1_rtc.py --in_file ${INPUT_FILENAME} --output_dir output
 # python ${basedir}/s1_rtc.py --in_file input/${INPUT_FILENAME} --output_dir output
-
-# set -x
-# unset PROJ_LIB
-
-# # https://stackoverflow.com/questions/42352841/how-to-update-an-existing-conda-environment-with-a-yml-file
-# # https://stackoverflow.com/questions/36539623/how-do-i-find-the-name-of-the-conda-environment-in-which-my-code-is-running
-# conda env update --name $CONDA_DEFAULT_ENV --file environment.yaml
-
-# # Absolute path here
-# # This PWD is wherever the job is run (where the .sh is called from) 
-# OUTPUTDIR="${PWD}/output"
-
-# # Cmd line call that worked
-# #python 3.1.5_dps.py --in_tile_fn '/projects/maap-users/alexdevseed/boreal_tiles.gpkg' --in_tile_num 30550 --tile_buffer_m 120 --in_tile_layer "boreal_tiles_albers" -o '/projects/tmp/Topo/'
-
-# #Print to stdout for debugging
-# python s1_rtc.py \
-# --s1_zip $INPUT_FILENAME \
-# --output_dir $OUTPUTDIR \
