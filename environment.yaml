@@ -6,6 +6,8 @@ dependencies:
     # - pip>=21.3  # https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/#editable-installation
     - isce3=0.13.0  # Fix at v0.13.0 because that API matches RTC v0.4
     - lxml
+    - pip:
+        - git+https://github.com/opera-adt/RTC.git@v0.4
     - numpy=1.25  # from s1reader. Fix at v1.25.0 because that API matches RTC v0.4
     - gdal>=3.4.2  # for s1reader. Must be >=3.4.2 for sardem
     - packaging  # from s1reader
@@ -14,5 +16,4 @@ dependencies:
     - sentineleof  # to download the Sentinel-1 Orbit files
     - sardem  # to download and crop the Copernicus DEM 
     - pip:
-        - git+https://github.com/opera-adt/s1-reader.git  # install s1-reader before RTC
-        - git+https://github.com/opera-adt/RTC.git@v0.4
+        - git+https://github.com/opera-adt/s1-reader.git
