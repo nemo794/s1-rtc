@@ -12,9 +12,9 @@
 source activate base
 
 # TODO - move this section to a build-env.sh script
-basedir=$( cd "$(dirname "$0")" ; pwd -P )
-# conda install ${basedir}/environment.yaml
-mamba env update --file ${basedir}/environment.yaml
+# basedir=$( cd "$(dirname "$0")" ; pwd -P )
+# # conda install ${basedir}/environment.yaml
+# mamba env update --file ${basedir}/environment.yaml
 
 
 INPUT_FILENAME=$(ls -d input/*)
