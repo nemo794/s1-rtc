@@ -7,3 +7,4 @@ source activate base
 basedir=$( cd "$(dirname "$0")" ; pwd -P )
 # conda install ${basedir}/environment.yaml
 mamba env update --file ${basedir}/environment.yaml
+mamba install -y -c conda-forge numpy=1.25
