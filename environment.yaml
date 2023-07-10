@@ -4,6 +4,7 @@ channels:
     - nodefaults  # force everything to come from conda-forge channel
 dependencies:
     - pip>=21.3  # https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/#editable-installation
+    - argparse
     - isce3=0.13.0  # Fix at v0.13.0 because that API matches RTC v0.4
     - lxml
     - numpy=1.25  # from s1reader. Fix at v1.25.0 because that API matches RTC v0.4
