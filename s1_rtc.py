@@ -344,7 +344,7 @@ def main(bbox, dateRange, direction):
 def download_file_from_https(url_of_file):
     
     maap = MAAP()
-    filename = os.path.basename(urlparse(url).path)
+    filename = os.path.basename(urlparse(url_of_file).path)
     filepath = os.path.join("input", filename)
 
     proxy = Result({})
@@ -355,7 +355,7 @@ def download_file_from_https(url_of_file):
     proxy._apiHeader['proxy-ticket'] = ''
 
     proxy._dps = DpsHelper(proxy._apiHeader, "")
-    proxy._getHttpData(url, False, filepath)
+    proxy._getHttpData(url_of_file, False, filepath)
 
     return filepath
 
