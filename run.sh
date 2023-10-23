@@ -16,8 +16,8 @@ source activate base
 # # conda install ${basedir}/environment.yaml
 # mamba env update --file ${basedir}/environment.yaml
 
-# INPUT_FILENAME=$(ls -d input/*)
-INPUT_FILENAME=$1
+INPUT_FILENAME=$(ls -d input/*)
+# INPUT_FILENAME=$1
 
 # Get path to this run.sh script
 basedir=$( cd "$(dirname "$0")" ; pwd -P )

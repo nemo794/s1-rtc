@@ -167,12 +167,12 @@ def get_query_results(bbox, dateRange):
     # maap = MAAP()
 
     # Set the maximum number of results
-    MAX_RESULTS = 500
+    MAX_RESULTS = 2000
 
     from time import time
     start = time()
     results = []
-    for short_name in ("SENTINEL-1A_SLC", "SENTINEL-1B_SLC"):
+    for short_name in ("SENTINEL-1A_SLC",): #, "SENTINEL-1B_SLC"):
         results += maap.searchGranule(cmr_host="cmr.earthdata.nasa.gov",
                                         # concept_id=concept_id,
                                         short_name=short_name,
@@ -382,8 +382,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
 
-    in_file = download_file_from_https(args.in_file)
-    
+    # in_file = download_file_from_https(args.in_file)
+    in_file = args.infile
+
     if not os.path.isfile(in_file):
         raise FileNotFoundError(f"Input File does not exist {args.in_file}")
     
