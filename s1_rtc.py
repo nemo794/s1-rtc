@@ -352,9 +352,13 @@ def download_file_from_https(url_of_file):
     proxy._apiHeader = maap._get_api_header()
 
     # clear pgt value to simulate a DPS context
-    proxy._apiHeader['proxy-ticket'] = ''
+    # Update 10/24/2023: This header value is needed to authorize your request, so do not update to ''
+    # proxy._apiHeader['proxy-ticket'] = ''
 
-    proxy._dps = DpsHelper(proxy._apiHeader, "")
+    # Update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update 10/24/2023: update to just `proxy._dps = maap._DPS`
+    # proxy._dps = DpsHelper(proxy._apiHeader, "")
+    proxy._dps = maap._DPS
+
     proxy._getHttpData(url_of_file, False, filepath)
 
     return filepath
