@@ -14,6 +14,6 @@ dependencies:
     - packaging  # from s1reader
     - requests  # from s1reader
     - shapely  # from s1reader
-    - sentineleof  # to download the Sentinel-1 Orbit files
+    - sentineleof>=0.9.1  # to download the Sentinel-1 Orbit files
     - sardem  # to download and crop the Copernicus DEM
     

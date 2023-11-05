@@ -16,6 +16,8 @@ from maap.Result import Result
 from maap.dps.DpsHelper import DpsHelper
 from urllib.parse import urlparse
 
+import eof
+
 
 def build_rtc_runcnfg(user_rncfg, input_s1_zip, orbit_file, dem_file, scratch_dir, output_dir):
     
@@ -261,10 +263,15 @@ def granule2bursts(input_s1_zip, output_dir="./output"):
     scratch_dir = os.path.join("scratch", granule_name)
     os.makedirs(scratch_dir, exist_ok=True)
     
-    # Use subprocess.run() instead of subprocess.Popen() so that we wait for the command to finish.
-    cmd = ["eof", "--sentinel-file", input_s1_zip, "--save-dir", scratch_dir]
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    # # Use subprocess.run() instead of subprocess.Popen() so that we wait for the command to finish.
+    # cmd = ["eof", "--force-asf", "--sentinel-file", input_s1_zip, "--save-dir", scratch_dir]
+    # result = subprocess.run(cmd, capture_output=True, text=True, check=True)
 
+    # download the EOF file
+    eof_https_link = get_eof_https_link(input_s1_zip)
+    print("TEST TEST: https link to EOF file: ", eof_https_link)
+    orbit_file = download_file_from_https(eof_https_link)
+    
     # !eof --sentinel-file {input_s1_zip} --save-dir {scratch_dir}
     orbit_file = glob.glob(os.path.join(scratch_dir, "*.EOF"))[0]
     print("orbit_file: ", orbit_file)
@@ -362,6 +369,28 @@ def download_file_from_https(url_of_file):
     proxy._getHttpData(url_of_file, False, filepath)
 
     return filepath
+
+
+def get_eof_https_link(sentinel_file: str, orbit_type: str = "precise") -> str:
+    """Downloads and saves EOF files for specific dates
+
+    Args:
+        sentinel_file (str): path to Sentinel-1 filename to download one .EOF for
+        orbit_type (str): precise or restituted
+
+    Returns:
+        str: https link at ASF to the EOF file corresponding to `sentinel_file`.
+    """
+    sent = eof.products.Sentinel(sentinel_file)
+    orbit_dts, missions = [sent.start_time], [sent.mission]
+
+    # First make sure all are datetimes if given string
+    orbit_dts = [parse(dt) if isinstance(dt, str) else dt for dt in orbit_dts]
+
+    asfclient = eof.asf_client.ASFClient()
+    urls = asfclient.get_download_urls(orbit_dts, missions, orbit_type=orbit_type)
+
+    return urls[0]
 
 
 if __name__ == "__main__":
