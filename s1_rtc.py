@@ -263,17 +263,18 @@ def granule2bursts(input_s1_zip, output_dir="./output"):
     scratch_dir = os.path.join("scratch", granule_name)
     os.makedirs(scratch_dir, exist_ok=True)
     
+    # download the EOF file
+
+    # New way to access S1 EOF files, as of Oct 31, 2023.
+    eof_https_link = get_eof_https_link(input_s1_zip)
+    orbit_file = download_file_from_https(eof_https_link)
+
     # # Use subprocess.run() instead of subprocess.Popen() so that we wait for the command to finish.
     # cmd = ["eof", "--force-asf", "--sentinel-file", input_s1_zip, "--save-dir", scratch_dir]
     # result = subprocess.run(cmd, capture_output=True, text=True, check=True)
 
-    # download the EOF file
-    eof_https_link = get_eof_https_link(input_s1_zip)
-    print("TEST TEST: https link to EOF file: ", eof_https_link)
-    orbit_file = download_file_from_https(eof_https_link)
-    
     # !eof --sentinel-file {input_s1_zip} --save-dir {scratch_dir}
-    orbit_file = glob.glob(os.path.join(scratch_dir, "*.EOF"))[0]
+    # orbit_file = glob.glob(os.path.join(scratch_dir, "*.EOF"))[0]
     print("orbit_file: ", orbit_file)
     
     # Get DEM for this granule    
@@ -385,7 +386,7 @@ def get_eof_https_link(sentinel_file: str, orbit_type: str = "precise") -> str:
     orbit_dts, missions = [sent.start_time], [sent.mission]
 
     # First make sure all are datetimes if given string
-    orbit_dts = [parse(dt) if isinstance(dt, str) else dt for dt in orbit_dts]
+    orbit_dts = [dt for dt in orbit_dts]
 
     asfclient = eof.asf_client.ASFClient()
     urls = asfclient.get_download_urls(orbit_dts, missions, orbit_type=orbit_type)
