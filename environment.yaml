@@ -1,4 +1,4 @@
-name: base
+name: s1rtc
 channels:
     - conda-forge
     - nodefaults  # force everything to come from conda-forge channel
@@ -16,4 +16,5 @@ dependencies:
     - shapely  # from s1reader
     - sentineleof>=0.9.1  # to download the Sentinel-1 Orbit files
     - sardem  # to download and crop the Copernicus DEM
-    
+    - maap
+

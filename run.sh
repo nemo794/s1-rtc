@@ -9,7 +9,7 @@
 
 # For custom environments, make sure to activate the conda environment.
 # For DPS, use `source activate <custom>`, not `conda activate <custom>`
-source activate base
+source activate s1rtc
 
 # TODO - move this section to a build-env.sh script
 # basedir=$( cd "$(dirname "$0")" ; pwd -P )
