@@ -10,11 +10,10 @@ dependencies:
     - pip:
         - git+https://github.com/opera-adt/s1-reader.git
         - git+https://github.com/opera-adt/RTC.git@v0.4
+        - git+https://github.com/MAAP-Project/maap-py.git
     - gdal>=3.4.2  # for s1reader. Must be >=3.4.2 for sardem
     - packaging  # from s1reader
     - requests  # from s1reader
     - shapely  # from s1reader
     - sentineleof>=0.9.1  # to download the Sentinel-1 Orbit files
     - sardem  # to download and crop the Copernicus DEM
-    - maap
-
