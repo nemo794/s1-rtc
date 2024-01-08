@@ -9,6 +9,6 @@ basedir=$( cd "$(dirname "$0")" ; pwd -P )
 conda config --set solver libmamba
 
 # conda env update --file ${basedir}/environment.yaml
-conda env create -f environment.yaml
+conda env create -f ${basedir}/environment.yaml
 source activate s1rtc
 conda install -y -c conda-forge numpy=1.25
